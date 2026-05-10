@@ -73,6 +73,7 @@ SMTP_SECURE=false
 SMTP_USER=your_email@gmail.com
 SMTP_PASS=your_16_char_app_password
 NOTIFY_EMAIL=your_email@gmail.com
+this is kind of challenging 
 ```
 
 > **💡 Gmail App Password:** Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) to generate one.
