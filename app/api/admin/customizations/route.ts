@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import pool from "@/lib/db";
+import { query } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
     const password = request.headers.get("x-admin-password");
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const [rows] = await pool.execute(
+        const rows = await query(
             "SELECT * FROM customization_requests ORDER BY created_at DESC"
         );
         return NextResponse.json(rows);

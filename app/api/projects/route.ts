@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import pool from "@/lib/db";
+import { query } from "@/lib/db";
 
 export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
@@ -13,7 +13,7 @@ export async function DELETE(request: NextRequest) {
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
     try {
-        await pool.execute("DELETE FROM projects WHERE id = ?", [id]);
+        await query("DELETE FROM projects WHERE id = $1", [id]);
         return NextResponse.json({ message: "Project deleted" });
     } catch (error) {
         console.error("Error deleting project:", error);
@@ -23,7 +23,7 @@ export async function DELETE(request: NextRequest) {
 
 export async function GET() {
     try {
-        const [rows] = await pool.execute(
+        const rows = await query(
             "SELECT * FROM projects ORDER BY created_at DESC"
         );
 

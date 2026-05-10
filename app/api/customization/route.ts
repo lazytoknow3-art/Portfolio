@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import pool from "@/lib/db";
+import { query } from "@/lib/db";
 import { sendMail } from "@/lib/mailer";
 
 export async function POST(request: NextRequest) {
@@ -14,8 +14,8 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        await pool.execute(
-            "INSERT INTO customization_requests (name, email, dream_website, color_mood, features) VALUES (?, ?, ?, ?, ?)",
+        await query(
+            "INSERT INTO customization_requests (name, email, dream_website, color_mood, features) VALUES ($1, $2, $3, $4, $5)",
             [
                 name,
                 email,

@@ -1,43 +1,38 @@
--- Agency Portfolio Database Schema
--- Run this SQL to set up the database
-
-CREATE DATABASE IF NOT EXISTS agency_portfolio;
-USE agency_portfolio;
-
--- Projects table
 CREATE TABLE IF NOT EXISTS projects (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   category VARCHAR(100) NOT NULL,
   description TEXT,
   image_url VARCHAR(500),
   live_url VARCHAR(500),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Contact messages table
+
 CREATE TABLE IF NOT EXISTS contact_messages (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   business_name VARCHAR(255),
   business_type VARCHAR(100),
   email VARCHAR(255) NOT NULL,
   message TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Customization requests table
 CREATE TABLE IF NOT EXISTS customization_requests (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   dream_website TEXT,
   color_mood VARCHAR(100),
-  features JSON,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  features JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- ============================================================
 -- Seed data for projects
+-- ============================================================
 INSERT INTO projects (name, category, description, image_url, live_url) VALUES
 (
   'La Petite Bakery',
