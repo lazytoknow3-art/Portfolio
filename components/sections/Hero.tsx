@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, CheckCircle, Send, MessageSquare, Palette, Globe } from "lucide-react";
 
@@ -95,7 +95,7 @@ function PhoneScreen() {
     const fullName = "Sarah — Sweet Crumbs Bakery";
     const fullMsg = "I need a warm, cozy website with an online menu and contact form.";
     const moods = ["Warm", "Bold", "Minimal"];
-    const features = ["Menu", "Gallery", "Contact", "Booking"];
+    const features = useMemo(() => ["Menu", "Gallery", "Contact", "Booking"], []);
 
     useEffect(() => {
         let t: ReturnType<typeof setTimeout>;
@@ -131,7 +131,7 @@ function PhoneScreen() {
         if (step === "confirm") t = setTimeout(() => setStep("form"), 3500);
 
         return () => clearTimeout(t);
-    }, [step]);
+    }, [step, features, fullName, fullMsg]);
 
     return (
         <div className="w-full h-full bg-[#FAF7F2] rounded-[28px] overflow-hidden flex flex-col">
@@ -249,7 +249,7 @@ function PhoneScreen() {
                             <div>
                                 <p className="text-[12px] font-display font-bold text-foreground mb-1">Enquiry Received!</p>
                                 <p className="text-[9px] font-body text-muted leading-relaxed">
-                                    Thanks Sarah! We'll review your requirements and get back to you within 24 hours.
+                                    Thanks Sarah! We&apos;ll review your requirements and get back to you within 24 hours.
                                 </p>
                             </div>
                             <div className="w-full flex flex-col gap-1.5 mt-1">
