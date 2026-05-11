@@ -33,24 +33,32 @@ export default function Contact() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!formData.name || !formData.email) return;
 
         setIsSubmitting(true);
         try {
-            const res = await fetch("/api/contact", {
+            const formEl = e.currentTarget;
+            const body = new FormData(formEl);
+            body.append("access_key", "d8c60a55-9433-4063-a012-09d6009a0270");
+
+            const res = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body,
             });
+
             if (res.ok) {
                 setShowToast(true);
                 setFormData({ name: "", business_name: "", business_type: "", email: "", message: "" });
+                formEl.reset();
                 setTimeout(() => setShowToast(false), 5000);
+            } else {
+                const data = await res.json();
+                console.error("Web3Forms error:", data.message || data);
             }
-        } catch {
-            // Handle error
+        } catch (error) {
+            console.error("Error submitting contact form:", error);
         } finally {
             setIsSubmitting(false);
         }
