@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
-import { sendMail } from "@/lib/mailer";
 
 export async function POST(request: NextRequest) {
     try {
@@ -24,15 +23,6 @@ export async function POST(request: NextRequest) {
                 features ? JSON.stringify(features) : null,
             ]
         );
-
-        sendMail(
-            `New Customization Request: ${name}`,
-            `<p><b>Name:</b> ${name}</p>
-             <p><b>Email:</b> ${email}</p>
-             <p><b>Dream Website:</b> ${dream_website || "—"}</p>
-             <p><b>Color Mood:</b> ${color_mood || "—"}</p>
-             <p><b>Features:</b> ${features ? (Array.isArray(features) ? features : JSON.parse(features)).join(", ") : "—"}</p>`
-        ).catch((err) => console.error("Mail error:", err));
 
         return NextResponse.json(
             { message: "Customization request saved successfully" },

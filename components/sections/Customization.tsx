@@ -59,29 +59,40 @@ export default function Customization() {
         );
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!name || !email) return;
 
         setIsSubmitting(true);
         try {
-            const res = await fetch("/api/customization", {
+            const body = new FormData();
+            body.append("access_key", "d8c60a55-9433-4063-a012-09d6009a0270");
+            body.append("name", name);
+            body.append("email", email);
+            body.append("subject", `Customization Request from ${name}`);
+            body.append("message", `Dream website: ${dreamWebsite}\nColor mood: ${selectedMood}\nFeatures: ${selectedFeatures.join(", ")}`);
+            body.append("dream_website", dreamWebsite);
+            body.append("color_mood", selectedMood);
+            body.append("features", selectedFeatures.join(", "));
+
+            const res = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    dream_website: dreamWebsite,
-                    color_mood: selectedMood,
-                    features: selectedFeatures,
-                }),
+                body,
             });
 
             if (res.ok) {
                 setIsSubmitted(true);
+                setName("");
+                setEmail("");
+                setDreamWebsite("");
+                setSelectedMood("");
+                setSelectedFeatures([]);
+            } else {
+                const data = await res.json();
+                console.error("Web3Forms error:", data.message || data);
             }
-        } catch {
-            // Handle error silently
+        } catch (error) {
+            console.error("Error submitting customization form:", error);
         } finally {
             setIsSubmitting(false);
         }

@@ -65,19 +65,7 @@ cp .env.example .env.local
 DATABASE_URL=postgresql://username:password@ep-example-123456.us-east-2.aws.neon.tech/neondb?sslmode=require
 
 ADMIN_PASSWORD=yourSecureAdminPassword
-
-# Gmail SMTP (use an App Password, not your login password)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=your_email@gmail.com
-SMTP_PASS=your_16_char_app_password
-NOTIFY_EMAIL=your_email@gmail.com
-this is kind of challenging 
-checked mail
 ```
-
-> **💡 Gmail App Password:** Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) to generate one.
 
 ### 4. Run the development server
 
@@ -117,7 +105,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 │   └── useLenis.ts                 # Lenis smooth scroll hook
 ├── lib/
 │   ├── db.ts                       # Neon PostgreSQL connection (serverless)
-│   ├── mailer.ts                   # Nodemailer SMTP utility
 │   ├── utils.ts                    # cn() utility
 │   └── schema.sql                  # PostgreSQL schema + seed data
 ├── tailwind.config.ts              # Custom design system
@@ -163,12 +150,6 @@ git push origin main
    |---|---|
    | `DATABASE_URL` | `postgresql://user:pass@ep-xxx.aws.neon.tech/db?sslmode=require` |
    | `ADMIN_PASSWORD` | Your admin password |
-   | `SMTP_HOST` | `smtp.gmail.com` |
-   | `SMTP_PORT` | `587` |
-   | `SMTP_SECURE` | `false` |
-   | `SMTP_USER` | Your Gmail address |
-   | `SMTP_PASS` | Your Gmail App Password |
-   | `NOTIFY_EMAIL` | Your notification email |
 
 3. Click **Deploy** 🚀
 
@@ -186,7 +167,6 @@ git push origin main
 | `DATABASE_URL is not set` | Add `DATABASE_URL` to `.env.local` (local) or Vercel env vars (production) |
 | Connection timeout | Ensure `?sslmode=require` is in your connection string |
 | Empty projects list | Run `lib/schema.sql` in Neon's SQL Editor to seed data |
-| SMTP errors | Generate a Gmail App Password (regular passwords won't work with 2FA) |
 | Build fails on Vercel | Check that all env vars are set in Vercel project settings |
 
 ## 📄 License
